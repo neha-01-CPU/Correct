@@ -48,9 +48,10 @@
 }
 
 html, body {
-   position: fixed;
-   inset: 0;
-  width: 100%; height: 100%;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh; /* Shrinks natively when the keyboard opens */
   overflow: hidden;
   font-family: var(--f-body);
   background: linear-gradient(145deg, #b8d4f5 0%, #cce0fc 45%, #ddeeff 100%);
@@ -1349,51 +1350,31 @@ html[data-theme="dark"] .bg-blob.blob-1 { background: radial-gradient(circle, rg
 html[data-theme="dark"] .bg-blob.blob-2 { background: radial-gradient(circle, rgba(139,92,246,0.15), transparent 70%) !important; }
 html[data-theme="dark"] .bg-blob.blob-3 { background: radial-gradient(circle, rgba(16,185,129,0.10), transparent 70%) !important; }
 /* ================================================================
-   SMART KEYBOARD MODE (JS-Triggered)
+   CSS-ONLY MOBILE KEYBOARD FIX (NO JAVASCRIPT REQUIRED)
 ================================================================ */
-body.keyboard-open #leaderboard-panel { 
-  display: none !important; 
-}
-body.keyboard-open .canvas-col { 
-  flex: 3 !important; 
-}
-body.keyboard-open .game-header {
-  min-height: 40px !important;
-  padding: 2px 10px !important;
-}
-/* ================================================================
-   ULTIMATE MOBILE KEYBOARD FIX
-================================================================ */
-@media (max-width: 767px) {
-  /* Lock the body rigidly in place */
-  body.keyboard-open {
-    position: fixed !important;
-    inset: 0 !important;
-    height: 100% !important;
-  }
-  
-  /* Hide non-essentials to save space */
-  body.keyboard-open .game-header,
-  body.keyboard-open #leaderboard-panel,
-  body.keyboard-open .chat-messages {
+@media (max-width: 767px) and (max-height: 550px) {
+  /* Hide non-essentials instantly to save space */
+  .game-header,
+  #leaderboard-panel,
+  .chat-messages {
     display: none !important; 
   }
   
   /* Allow the bottom row to shrink to just the input pill */
-  body.keyboard-open .bottom-mobile-row {
+  .bottom-mobile-row {
     flex: none !important;
     height: auto !important;
   }
   
   /* Maximize chat panel width */
-  body.keyboard-open #chat-panel {
+  #chat-panel {
     width: 100% !important;
     height: auto !important;
     padding: 6px !important;
   }
   
   /* Force Canvas to stretch and fill all remaining space above the input */
-  body.keyboard-open .canvas-col {
+  .canvas-col {
     flex: 1 1 auto !important;
     height: 100% !important;
   }

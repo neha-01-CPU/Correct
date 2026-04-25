@@ -1361,3 +1361,40 @@ body.keyboard-open .game-header {
   min-height: 40px !important;
   padding: 2px 10px !important;
 }
+/* ================================================================
+   ULTIMATE MOBILE KEYBOARD FIX
+================================================================ */
+@media (max-width: 767px) {
+  /* Lock the body rigidly in place */
+  body.keyboard-open {
+    position: fixed !important;
+    inset: 0 !important;
+    height: 100% !important;
+  }
+  
+  /* Hide non-essentials to save space */
+  body.keyboard-open .game-header,
+  body.keyboard-open #leaderboard-panel,
+  body.keyboard-open .chat-messages {
+    display: none !important; 
+  }
+  
+  /* Allow the bottom row to shrink to just the input pill */
+  body.keyboard-open .bottom-mobile-row {
+    flex: none !important;
+    height: auto !important;
+  }
+  
+  /* Maximize chat panel width */
+  body.keyboard-open #chat-panel {
+    width: 100% !important;
+    height: auto !important;
+    padding: 6px !important;
+  }
+  
+  /* Force Canvas to stretch and fill all remaining space above the input */
+  body.keyboard-open .canvas-col {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+  }
+}

@@ -48,11 +48,12 @@
 }
 
 html, body {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100dvh; /* Shrinks natively when the keyboard opens */
+  position: fixed; 
+  inset: 0; 
   overflow: hidden;
+  height: 100dvh; 
+  width: 100vw;
+  /* Keep your existing font and background here */
   font-family: var(--f-body);
   background: linear-gradient(145deg, #b8d4f5 0%, #cce0fc 45%, #ddeeff 100%);
   color: var(--txt);
@@ -1050,44 +1051,50 @@ html, body {
   .timer-num { font-size: 0.88rem; }
   .wb-char { font-size: 1.1rem; }
 
-  /* Game body takes all remaining height */
+/* ==========================================================
+     MOBILE GRID FIX (Replaces the buggy Flexbox math)
+  ========================================================== */
   .game-body { 
-    flex: 1 1 100%; min-height: 0; gap: 6px; display: flex; 
-    flex-direction: column; padding-bottom: 2px;
+    display: grid !important; 
+    /* This exactly replicates your 60/40 split but using Grid */
+    grid-template-rows: 60fr 40fr auto !important; 
+    gap: 6px; padding-bottom: 2px;
+    flex: 1 1 100%; min-height: 0; 
   }
 
-  /* INCREASED CANVAS AREA (60/40 Split instead of 50/50) */
+  /* INCREASED CANVAS AREA (Stripped flex math, Grid handles height) */
   .canvas-col { 
-    flex: 0 0 calc(60% - 3px); height: calc(60% - 3px); min-height: 0; order: 1; 
+    height: 100% !important; min-height: 0; order: 1; 
   }
   .canvas-wrap { flex: 1; height: 100%; }
 
-/* Toolbar container full width */
+  /* Toolbar container full width (UNCHANGED) */
   .toolbar-container { 
     width: 100% !important; 
     display: flex !important; 
   }
 
-  /* Toolbar glass mobile updates */
+  /* Toolbar glass mobile updates (UNCHANGED) */
   .toolbar-glass {
     width: 100% !important;
     padding: 6px 12px !important;
     border-radius: var(--radius-sm) !important;
-    justify-content: space-between !important; /* Spreads them perfectly on phone */
+    justify-content: space-between !important; 
   }
   .toolbar-glass::-webkit-scrollbar { display: none; }
   .toolbar-glass .tool-btn { width: 36px !important; height: 36px !important; flex-shrink: 0; }
   .toolbar-glass .tool-btn svg { width: 16px !important; height: 16px !important; }
 
-  /* Bottom row gets the remaining 40% */
+  /* Bottom row (Stripped flex math, Grid handles height) */
   .bottom-mobile-row {
-    flex: 0 0 calc(40% - 3px); height: calc(40% - 3px); min-height: 0; order: 2; display: flex; gap: 6px;
+    height: 100% !important; min-height: 0; order: 2; display: flex; gap: 6px;
   }
   #leaderboard-panel, #chat-panel { width: 50%; height: 100%; flex: 1; min-height: 0; }
 
   /* Full-width seamless pill at the bottom */
   .chat-form {
-    order: 3; margin-top: auto;
+    order: 3; 
+    margin-top: 0 !important; /* CRITICAL FIX: Removed 'auto' to stop Android scroll bug */
     background: var(--glass-s);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -1097,8 +1104,6 @@ html, body {
 
   /* Private modal full-width on mobile */
   .modal-card { padding: 20px 16px; max-height: 95dvh; }
-}
-
 /* ════════════════════════════════════════════
    DESKTOP LOCKDOWN (MAXIMIZE CANVAS & PANELS)
 ════════════════════════════════════════════ */

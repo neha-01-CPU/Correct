@@ -863,33 +863,3 @@ function floatPoints(text, x, y) {
 
 function shuffled(arr) { return [...arr].sort(() => Math.random() - 0.5); }
 function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-/* ════════════════════════════════════════════
-   MOBILE KEYBOARD FIX (FOCUS TRIGGER)
-════════════════════════════════════════════ */
-function setupKeyboardFix() {
-  const chatInput = document.getElementById('chat-input');
-  if (!chatInput) return;
-
-  chatInput.addEventListener('focus', () => {
-    document.body.classList.add('keyboard-open');
-    // Force the browser to snap back to the top, preventing the "push up" effect
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-      document.body.scrollTop = 0;
-      resizeCanvas();
-    }, 100);
-  });
-
-  chatInput.addEventListener('blur', () => {
-    document.body.classList.remove('keyboard-open');
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-      resizeCanvas();
-    }, 100);
-  });
-}
-
-// Ensure this runs when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  setupKeyboardFix();
-});

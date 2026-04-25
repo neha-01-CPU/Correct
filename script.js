@@ -863,3 +863,43 @@ function floatPoints(text, x, y) {
 
 function shuffled(arr) { return [...arr].sort(() => Math.random() - 0.5); }
 function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+/* ════════════════════════════════════════════
+   MOBILE KEYBOARD & VIEWPORT FIX
+════════════════════════════════════════════ */
+function setupKeyboardFix() {
+  if (window.visualViewport) {
+    const handleViewportChange = () => {
+      // 1. Force the body height to match the exact visible area above the keyboard
+      const vh = window.visualViewport.height;
+      document.body.style.height = vh + 'px';
+      
+      // 2. Trigger your existing .keyboard-open CSS class
+      // If the visible height shrinks significantly, the keyboard is open
+      const isKeyboardOpen = vh < window.screen.height * 0.75;
+      
+      if (isKeyboardOpen) {
+        document.body.classList.add('keyboard-open');
+        // Instantly snap the input into view to prevent native browser jumping
+        const chatInput = document.getElementById('chat-input');
+        if(chatInput) chatInput.scrollIntoView({ block: 'end' });
+      } else {
+        document.body.classList.remove('keyboard-open');
+      }
+      
+      // 3. Immediately redraw/resize the canvas so it adapts smoothly
+      setTimeout(resizeCanvas, 50);
+    };
+
+    // Listen for resize and scroll events on the visual viewport (Crucial for iOS Safari)
+    window.visualViewport.addEventListener('resize', handleViewportChange);
+    window.visualViewport.addEventListener('scroll', handleViewportChange);
+    
+    // Initialize on load
+    handleViewportChange();
+  }
+}
+
+// Call this function once the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  setupKeyboardFix();
+});
